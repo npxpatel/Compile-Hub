@@ -1,6 +1,6 @@
-import { PrismaClient } from "@prisma/client";
 import { Auth } from "../middleware/token";
-import { Request, Response } from "express";
+import { PrismaClient } from "@prisma/client";
+import express, { Request, Response } from "express";
 
 const prisma = new PrismaClient();
 
@@ -10,7 +10,11 @@ interface FullCodeType {
   javascript: string;
 }
 
-async function addCode(fullCode: FullCodeType, userId: number, ownerNm: string) {
+async function addCode(
+  fullCode: FullCodeType,
+  userId: number,
+  ownerNm: string
+) {
   return await prisma.code.create({
     data: {
       html: fullCode.html,

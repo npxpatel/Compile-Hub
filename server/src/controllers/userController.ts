@@ -1,9 +1,9 @@
-import { Request, Response } from "express";
-import jwt from "jsonwebtoken";
 import { Auth } from "../middleware/token";
-import { PrismaClient } from "@prisma/client";
-import bcrypt from "bcrypt";
-// import  {JWT_SECRET } from '../config';
+import express, { Request, Response } from 'express';
+import jwt from 'jsonwebtoken';
+import { PrismaClient } from '@prisma/client';
+import bcrypt from 'bcrypt';
+
 
 const prisma = new PrismaClient();
 const JWT_SECRET = "nirajkl" ;

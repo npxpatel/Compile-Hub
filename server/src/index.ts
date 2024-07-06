@@ -3,9 +3,10 @@ import cors from "cors"
 import { compilerRouter } from "./routes/compilerRouter"
 import cookieParser from "cookie-parser"
 import { userRouter } from "./routes/userRouter"
-export const app = express()
+
 import dotenv from 'dotenv';
 
+export const app = express()
 
 dotenv.config();
 
