@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 import { Auth } from "../middleware/token";
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
-const { JWT_SECRET } = require('../config');
+import  {JWT_SECRET } from '../config';
 
 const prisma = new PrismaClient();
 
@@ -42,7 +42,9 @@ export const signup = async (req: Request, res: Response) => {
       },
     });
 
-    const jwtToken = jwt.sign(
+
+     
+    const token = jwt.sign(
       {
         _id: user.id,
         email: user.email,
@@ -53,18 +55,17 @@ export const signup = async (req: Request, res: Response) => {
       }
     );
 
-    res.cookie("token", jwtToken, {
-      httpOnly: true,
-      path: "/",
-      expires: new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
-      sameSite: "lax",
-    });
+    console.log(token);
+
+    // res.cookie("token", jwtToken, {
+    //   expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
+    //   httpOnly: true,
+    //   sameSite: "lax",
+    // });
 
 
     return res.status(200).send({
-      username: user.username,
-      picture: user.picture,
-      email: user.email,
+      token : token
     });
     
 };
@@ -95,28 +96,26 @@ export const login = async (req: Request, res: Response) => {
       return res.status(400).send({ message: "Invalid password" });
     }
 
-    const jwtToken = jwt.sign(
+    const token = jwt.sign(
       {
         _id: user.id,
         email: user.email,
       },
-      "dsd",
+      JWT_SECRET,
       {
         expiresIn: "1d",
       }
     );
 
-    res.cookie("token", jwtToken, {
-      httpOnly: true,
-      path: "/",
-      expires: new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
-      sameSite: "lax",
-    });
+    // res.cookie("token", jwtToken, {
+    //   expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
+    //   httpOnly: true,
+    //   sameSite: "lax",
+    // });
 
     return res.status(200).send({
-      username: user.username,
-      picture: user.picture,
-      email: user.email,
+      token : token
+        
     });
   } catch (err) {
     return res.status(500).send({ message: "Internal server error" });

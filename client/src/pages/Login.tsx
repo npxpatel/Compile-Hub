@@ -28,10 +28,11 @@ export default function Login() {
     try {
       const response = await axios.post(
         "http://localhost:3000/user/login",
-        inputs
+        inputs,
       );
       setLoading(false);
       dispatch(login())
+      localStorage.setItem('token', response.data.token);
       navigate("/compile")
       console.log(response.data);
     

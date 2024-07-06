@@ -1,5 +1,5 @@
-const JWT_SECRET = "nirajkl";
+export const JWT_SECRET = "nirajkl";
 
-module.exports = {
-  JWT_SECRET
-};
+// module.exports = {
+//   JWT_SECRET
+// };

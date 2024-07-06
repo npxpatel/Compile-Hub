@@ -19,7 +19,7 @@ model Code {
   css        String?
   javascript String?
   userId     Int
-  ownerNm    String
+  ownerNm    String?
   user User @relation(fields: [userId], references: [id])
 }
 

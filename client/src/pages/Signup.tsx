@@ -32,6 +32,7 @@ export default function Signup() {
       );
       setLoading(false);
       console.log(response.data);
+      localStorage.setItem('token', response.data.token);
       dispatch(login())
       navigate("/compile")
     } catch (error) {

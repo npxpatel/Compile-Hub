@@ -55,19 +55,29 @@ export default function CodeHeader() {
   const saveCode = async () => {
     setLoading(true);
     try {
-      const result = await axios.post("http://localhost:3000/compiler/save", {
-        html,
-        css,
-        javascript,
-      });
+      const result = await axios.post(
+        'http://localhost:3000/compiler/save',
+        {
+          html,
+          css,
+          javascript,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        }
+      );
       console.log(result.data);
       navigate(`/compile/${result.data.url}`, { replace: true });
-    } catch (err) {
+    } 
+     catch (err) {
       console.log(err);
     } finally {
       setLoading(false);
     }
   };
+  
 
   const dispatch = useDispatch();
   const currentLanguage = useSelector(

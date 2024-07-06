@@ -1,24 +1,36 @@
-import { NextFunction , Request, Response  } from "express";  
-import jwt, {JsonWebTokenError} from "jsonwebtoken";
+import { NextFunction, Request, Response } from "express";
+import jwt from "jsonwebtoken";
+import { JWT_SECRET } from '../config';
 
 export interface Auth extends Request {
     _id?: number;
 }
 
 export const verifyToken = (req: Auth, res: Response, next: NextFunction) => {
-    const token = req.cookies.token;
-    if (!token) return res.status(401).send("Access Denied.");
+  const authHeader = req.headers.authorization;
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return res.status(403).json({
+      msg: "Auth failed",
+    });
+  }
+    
+  const jwtToken = authHeader.split(' ')[1];
 
-    jwt.verify(
-        token,
-        process.env.JWT_KEY!,
-        (err: JsonWebTokenError | null, DecodedData: any) => {
-          if (err) {
-            return res.status(401).send({ message: "Access Denied." });
-          }
-          req._id = DecodedData._id;
-          next();
-        }
-    )
 
+  try {
+    const decodedPayload = jwt.verify(jwtToken, JWT_SECRET) as jwt.JwtPayload;
+
+    if (decodedPayload._id) {
+      req._id = decodedPayload._id;
+      next();
+    } else {
+      return res.status(403).json({
+        msg: "Auth failed from token2",
+      });
+    }
+  } catch (error) {
+    return res.status(401).json({
+      msg: "Invalid token/expired",
+    });
+  }
 }

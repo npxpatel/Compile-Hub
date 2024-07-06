@@ -19,12 +19,18 @@ export default function Compile() {
 
   const loadCode = async () => {
     try {
-      const result = await axios.post("http://localhost:3000/compiler/load", {
+      const result = await axios.post("http://localhost:3000/compiler/load",
+      {
         urlId: id,
-      });
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    }
+    );
 
       const { html, css, javascript } = result.data.code;
-      // const fullCode = {html, css, javascript};
       console.log(result.data);
 
       dispatch(updateFullCode({ html, css, javascript }));
