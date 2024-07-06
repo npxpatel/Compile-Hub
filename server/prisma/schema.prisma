@@ -1,16 +1,10 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
   provider = "postgresql"
-  url      = "postgresql://nirajkumarpatel21:ehO7r5aQtXFs@ep-crimson-cloud-a5b9beuw.us-east-2.aws.neon.tech/nirajneondb?sslmode=requir"
+  url      = env("DATABASE_URL")
 }
 
 model Code {
@@ -20,7 +14,7 @@ model Code {
   javascript String?
   userId     Int
   ownerNm    String?
-  user User @relation(fields: [userId], references: [id])
+  user       User    @relation(fields: [userId], references: [id])
 }
 
 model User {
@@ -30,5 +24,5 @@ model User {
   password String
   picture  String? @default("https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png")
   
-  savedCodes     Code[]
+  savedCodes Code[]
 }
