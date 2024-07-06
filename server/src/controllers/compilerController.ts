@@ -81,7 +81,7 @@ export const loadCode = async (req: Auth, res: Response) => {
     const user = await prisma.user.findUnique({ where: { id: userId } });
     const isOwner = user?.username === existingCode.ownerNm;
 
-    return res.status(200).send({ fullCode: existingCode, isOwner });
+    return res.status(200).send({ code: existingCode, isOwner });
   } catch (error) {
     console.error("Error loading code:", error);
     return res.status(500).send({ msg: "Failed to load code" });

@@ -42,9 +42,9 @@ export default function Signup() {
 
   return (
     <div className="flex items-center justify-center h-screen container">
-      <div className="w-full max-w-sm p-6 bg-card dark:bg-[#000000] rounded-lg shadow-lg -mt-10 border-[1px]">
+      <div className="w-full max-w-sm p-6 bg-card dark:bg-[#000000] rounded-lg shadow-lg  border-[1px]  md:-mt-10">
         <div className="mb-6 text-center">
-          <h1 className="text-3xl font-bold text-foreground dark:text-white">
+          <h1 className=" text-lg md:text-3xl font-bold text-foreground dark:text-white">
             Create an Account
           </h1>
           <p className="text-muted-foreground dark:text-[#a9a9b3]">
@@ -53,7 +53,7 @@ export default function Signup() {
         </div>
         <form className="space-y-4" onSubmit={onSubmit}>
           <div>
-            <Label htmlFor="name" className="dark:text-white">
+            <Label htmlFor="name" className="   dark:text-white">
               Username
             </Label>
             <Input
@@ -66,8 +66,8 @@ export default function Signup() {
               }}
             />
           </div>
-          <div>
-            <Label htmlFor="email" className="dark:text-white">
+          <div >
+            <Label htmlFor="email" className=" dark:text-white">
               Email
             </Label>
             <Input
@@ -81,7 +81,7 @@ export default function Signup() {
             />
           </div>
           <div>
-            <Label htmlFor="password" className="dark:text-white">
+            <Label htmlFor="password" className="  dark:text-white">
               Password
             </Label>
             <Input

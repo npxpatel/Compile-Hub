@@ -94,7 +94,7 @@ export default function CodeHeader() {
           disabled={loading}
         >
           <Save size={16} />
-          {loading ? "Saving..." : "Save"}
+          {/* {loading ? "Saving..." : "Save"} */}
         </Button>
 
 
@@ -143,7 +143,7 @@ export default function CodeHeader() {
       </div>
 
       <div className="switch_tab flex justify-center items-center gap-2">
-        <p className="text-sm  font-semibold">Language:</p>
+        <p className="text-sm font-semibold">Lang:</p>
         <Select
           defaultValue={currentLanguage}
           onValueChange={(value) => {
@@ -152,7 +152,7 @@ export default function CodeHeader() {
             );
           }}
         >
-          <SelectTrigger className="w-[180px] bg-gray-800 focus:ring-0">
+          <SelectTrigger className=" w-[110px] lg:w-[180px] bg-gray-800 focus:ring-0">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
