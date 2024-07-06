@@ -4,11 +4,15 @@ import { compilerRouter } from "./routes/compilerRouter"
 import cookieParser from "cookie-parser"
 import { userRouter } from "./routes/userRouter"
 export const app = express()
+import dotenv from 'dotenv';
+
+
+dotenv.config();
 
 app.use(express.json())
 app.use(cors({
-  origin: 'frontend/url/vercel.app', 
-  
+  origin: 'https://your-frontend.vercel.app', 
+  credentials: true,
 }));
 app.use(cookieParser());
 

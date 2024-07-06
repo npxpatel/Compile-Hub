@@ -3,9 +3,10 @@ import jwt from "jsonwebtoken";
 import { Auth } from "../middleware/token";
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
-import  {JWT_SECRET } from '../config';
+// import  {JWT_SECRET } from '../config';
 
 const prisma = new PrismaClient();
+const JWT_SECRET = "nirajkl" ;
 
 export const signup = async (req: Request, res: Response) => {
   const { username, email, password } = req.body;
