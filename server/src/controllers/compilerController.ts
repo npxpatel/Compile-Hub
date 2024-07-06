@@ -209,7 +209,4 @@ export const getMyCodes = async (req: Auth, res: Response) => {
   } catch (err) {
     return res.status(500).send({ msg: "Failed to get saved codes" });
   }
-
-}
-
-
+};

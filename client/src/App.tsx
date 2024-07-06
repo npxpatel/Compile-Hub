@@ -4,6 +4,8 @@ import Home from "./pages/Home";
 import Compile from "./pages/Compile";
 import Opps from "./pages/Opps";
 import { ThemeProvider } from "@/components/theme-provider";
+import Signup from "./pages/Signup";
+import Login from "./pages/Login";
 
 function App() {
   return (
@@ -14,6 +16,9 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/compile" element={<Compile />} />
           <Route path="/compile/:urlId" element={<Compile />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+
           <Route path="*" element={<Opps />} />
         </Routes>
       </ThemeProvider>

@@ -14,10 +14,12 @@ const Header = () => {
           </Link>
         </li>
         <li>
-          <Button >Login</Button>
+        <Link to="/login">  <Button >Login</Button> </Link>
+        
         </li>
         <li>
-          <Button>Signup</Button>
+          <Link to="signup">  <Button>Signup</Button> </Link>
+        
         </li>
       </ul>
     </nav>

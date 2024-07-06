@@ -3,31 +3,33 @@ import jwt from "jsonwebtoken";
 import { Auth } from "../middleware/token";
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
-
+const { JWT_SECRET } = require('../config');
 
 const prisma = new PrismaClient();
 
 export const signup = async (req: Request, res: Response) => {
   const { username, email, password } = req.body;
-  const usernameRegex = /^[a-zA-Z0-9_]{5,}[a-zA-Z]+[0-9]*$/;
+  const usernameRegex = /^[a-zA-Z0-9]+$/;
   const emailRegex = /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/;
 
-  try {
+  
     const existingUser = await prisma.user.findFirst({
       where: { OR: [{ username: username }, { email: email }] },
     });
-     
-    if(existingUser) {
-      return res.status(400).send({ message: "Username or email already exists" });
-    }
-    
-    if(!usernameRegex.test(username)) {
+
+    if (!usernameRegex.test(username)) {
       return res.status(400).send({ message: "Invalid username" });
     }
 
-    if(!emailRegex.test(email)) {
-        return res.status(400).send({ message: "Invalid email" });
-        }
+    if (!emailRegex.test(email)) {
+      return res.status(400).send({ message: "Invalid email" });
+    }
+
+    if (existingUser) {
+      return res
+        .status(400)
+        .send({ message: "Username or email already exists" });
+    }
 
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
@@ -41,44 +43,47 @@ export const signup = async (req: Request, res: Response) => {
     });
 
     const jwtToken = jwt.sign(
-        {
-            _id : user.id,
-            email : user.email,
-        },
-        process.env.JWT_KEY!,
-        {
-            expiresIn: "1d",
-        }
-    )
+      {
+        _id: user.id,
+        email: user.email,
+      },
+      JWT_SECRET,
+      {
+        expiresIn: "1d",
+      }
+    );
 
     res.cookie("token", jwtToken, {
-        httpOnly: true,
-        path: "/",
-        expires: new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
-        sameSite: "lax"
+      httpOnly: true,
+      path: "/",
+      expires: new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
+      sameSite: "lax",
     });
+
 
     return res.status(200).send({
-        username : user.username,
-        picture: user.picture,
-        email: user.email,
-
-    })
-    }
-
-      catch (err) {
-         return res.status(500).send({ message: "Internal server error" });
-      }
+      username: user.username,
+      picture: user.picture,
+      email: user.email,
+    });
+    
 };
 
-
 export const login = async (req: Request, res: Response) => {
-  const { email, password } = req.body;
+  const { userId, password } = req.body;
 
   try {
-    const user = await prisma.user.findFirst({
-      where: { email: email },
-    });
+    let user = undefined;
+
+    if (userId.includes("@")) {
+      user = await prisma.user.findFirst({
+        where: { email: userId },
+      });
+    } else {
+      user = await prisma.user.findFirst({
+        where: { username: userId },
+      });
+    }
 
     if (!user) {
       return res.status(404).send({ message: "User not found" });
@@ -95,17 +100,17 @@ export const login = async (req: Request, res: Response) => {
         _id: user.id,
         email: user.email,
       },
-      process.env.JWT_KEY!,
+      "dsd",
       {
         expiresIn: "1d",
       }
     );
 
     res.cookie("token", jwtToken, {
-        httpOnly: true,
-        path: "/",
-        expires: new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
-        sameSite: "lax"
+      httpOnly: true,
+      path: "/",
+      expires: new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
+      sameSite: "lax",
     });
 
     return res.status(200).send({
@@ -113,17 +118,15 @@ export const login = async (req: Request, res: Response) => {
       picture: user.picture,
       email: user.email,
     });
-
-    } catch (err) {
-      return res.status(500).send({ message: "Internal server error" });
-
-    }
-}
+  } catch (err) {
+    return res.status(500).send({ message: "Internal server error" });
+  }
+};
 
 export const logout = async (req: Request, res: Response) => {
   res.clearCookie("token");
   return res.status(200).send({ message: "Logged out successfully" });
-}
+};
 
 export const getUser = async (req: Auth, res: Response) => {
   const userId = req._id;
@@ -144,7 +147,6 @@ export const getUser = async (req: Auth, res: Response) => {
       picture: user.picture,
       email: user.email,
     });
-
   } catch (err) {
     return res.status(500).send({ message: "Cannot fetch user details" });
   }

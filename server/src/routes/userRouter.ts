@@ -12,6 +12,5 @@ export const userRouter = express.Router();
 userRouter.post("/signup", signup);
 userRouter.post("/login", login);
 userRouter.post("/logout", logout);
-
 userRouter.get("/user-details", verifyToken, getUser);
 userRouter.get("/my-codes", verifyToken, getMyCodes);
