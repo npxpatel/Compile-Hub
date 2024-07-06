@@ -6,6 +6,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { LoginInputType } from "@/types";
 import { useState } from "react";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import {login} from "@/redux/slices/authSlice"
 
 
 
@@ -17,6 +19,8 @@ export default function Login() {
     password: "",
   });
 
+  const dispatch = useDispatch();
+
   async function onSubmit(event: any) {
     setLoading(true);
     event.preventDefault();
@@ -27,10 +31,12 @@ export default function Login() {
         inputs
       );
       setLoading(false);
+      dispatch(login())
       navigate("/compile")
       console.log(response.data);
     
     } catch (error) {
+       alert("Incorrect credentials !");
       console.error("Unexpected error", error);
     }
   }
@@ -40,10 +46,10 @@ export default function Login() {
       <div className="w-full max-w-sm p-6 bg-card dark:bg-[#000000] rounded-lg shadow-lg -mt-10 border-[1px]">
         <div className="mb-6 text-center">
           <h1 className="text-3xl font-bold text-foreground dark:text-white">
-            Create an Account
+            Welcome back
           </h1>
           <p className="text-muted-foreground dark:text-[#a9a9b3]">
-            Join our platform and start exploring the features.
+            Log in to your account to continue
           </p>
         </div>
         <form className="space-y-4" onSubmit={onSubmit}>

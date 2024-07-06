@@ -6,11 +6,14 @@ import { Link, useNavigate } from "react-router-dom";
 import { SignupInputType } from "@/types";
 import { useState } from "react";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import {login } from "../redux/slices/authSlice"
 
 
 
 export default function Signup() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [loading , setLoading] = useState(false);
   const [inputs, setInputs] = useState<SignupInputType>({
     username: "",
@@ -29,6 +32,7 @@ export default function Signup() {
       );
       setLoading(false);
       console.log(response.data);
+      dispatch(login())
       navigate("/compile")
     } catch (error) {
       console.error("Unexpected error", error);

@@ -7,6 +7,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 
+
 function App() {
   return (
     <>
@@ -18,6 +19,8 @@ function App() {
           <Route path="/compile/:urlId" element={<Compile />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+
+
 
           <Route path="*" element={<Opps />} />
         </Routes>
