@@ -18,8 +18,12 @@ exports.app.use((0, cors_1.default)({
     credentials: true,
 }));
 exports.app.use((0, cookie_parser_1.default)());
+exports.app.get('/', (req, res) => {
+    res.send('Hello, world!');
+});
 exports.app.use("/compiler", compilerRouter_1.compilerRouter);
 exports.app.use("/user", userRouter_1.userRouter);
 exports.app.listen(3000, () => {
     console.log("Server is running on port 3000");
 });
+exports.default = exports.app;
