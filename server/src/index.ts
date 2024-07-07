@@ -12,7 +12,7 @@ dotenv.config();
 
 app.use(express.json())
 app.use(cors({
-  origin: 'https://your-frontend.vercel.app', 
+  origin: 'https://wd-compiler-frontend.vercel.app', 
   credentials: true,
 }));
 app.use(cookieParser());

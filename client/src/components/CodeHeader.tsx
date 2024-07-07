@@ -75,6 +75,7 @@ export default function CodeHeader() {
       navigate(`/compile/${result.data.url}`, { replace: true });
     } 
      catch (err) {
+      alert("Please login to save the code")
       console.log(err);
     } finally {
       setLoading(false);
