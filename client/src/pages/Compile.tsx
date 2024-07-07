@@ -12,6 +12,9 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { updateFullCode } from "@/redux/slices/compilerSlice";
 
+
+const BACKEND_URL = "https://wd-compiler-backend.vercel.app"
+
 export default function Compile() {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const { urlId } = useParams();
@@ -32,7 +35,7 @@ export default function Compile() {
   const loadCode = async () => {
     try {
       const result = await axios.post(
-        "http://localhost:3000/compiler/load",
+        `${BACKEND_URL}/compiler/load`,
         { urlId: id },
         {
           headers: {

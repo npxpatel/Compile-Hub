@@ -6,6 +6,8 @@ import { RootState } from "@/redux/store";
 import { logout } from "@/redux/slices/authSlice";
 import axios from "axios";
 
+const BACKEND_URL = "https://wd-compiler-backend.vercel.app"
+
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
@@ -13,7 +15,7 @@ const Header = () => {
 
   async function logoutEvent() {
     try {
-      await axios.post("http://localhost:3000/user/logout");
+      await axios.post(`${BACKEND_URL}/user/logout`);
       dispatch(logout());
       navigate("/login");
     } catch (err) {

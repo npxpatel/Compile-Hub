@@ -10,6 +10,7 @@ import { useDispatch } from "react-redux";
 import {login } from "../redux/slices/authSlice"
 
 
+const BACKEND_URL = "https://wd-compiler-backend.vercel.app"
 
 export default function Signup() {
   const navigate = useNavigate();
@@ -27,7 +28,7 @@ export default function Signup() {
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/user/signup",
+        `${BACKEND_URL}/user/signup`,
         inputs
       );
       setLoading(false);
