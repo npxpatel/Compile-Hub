@@ -65,6 +65,14 @@ const Header = () => {
             <Button onClick={() => { logoutEvent(); setIsMenuOpen(false); }} className="w-full ">Logout</Button>
           </li>
         )}
+
+        {isLoggedIn && (
+           <li className="border-b border-gray-700 md:border-none ">
+            <Link to="/my-codes" onClick={() => setIsMenuOpen(false)}>
+                <Button className="w-full mb-4 lg:mb-0">My Codes</Button>
+              </Link>
+           </li>
+        )}
       </ul>
     </nav>
   );

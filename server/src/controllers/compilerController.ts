@@ -74,7 +74,7 @@ export const saveCode = async (req: Auth, res: Response) => {
 
 export const loadCode = async (req: Auth, res: Response) => {
   const { urlId } = req.body;
-  const userId = req._id;
+ 
 
   try {
     const existingCode = await prisma.code.findUnique({ where: { id: urlId } });
@@ -82,10 +82,7 @@ export const loadCode = async (req: Auth, res: Response) => {
       return res.status(404).send({ msg: "Code not found" });
     }
 
-    const user = await prisma.user.findUnique({ where: { id: userId } });
-    const isOwner = user?.username === existingCode.ownerNm;
-
-    return res.status(200).send({ code: existingCode, isOwner });
+    return res.status(200).send({ code: existingCode });
   } catch (error) {
     console.error("Error loading code:", error);
     return res.status(500).send({ msg: "Failed to load code" });
@@ -139,6 +136,9 @@ export const editCode = async (req: Auth, res: Response) => {
 
 export const getMyCodes = async (req: Auth, res: Response) => {
   const userId = req._id;
+  if (!userId) {
+    return res.status(400).send({ msg: "User ID is missing" });
+  }
 
   try {
     const user = await prisma.user.findUnique({

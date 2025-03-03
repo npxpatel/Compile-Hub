@@ -6,6 +6,7 @@ import Opps from "./pages/Opps";
 import { ThemeProvider } from "@/components/theme-provider";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
+import MyCodes from "./components/MyCodes";
 
 
 function App() {
@@ -19,7 +20,7 @@ function App() {
           <Route path="/compile/:urlId" element={<Compile />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-
+          <Route path="/my-codes" element = { <MyCodes />} />
 
 
           <Route path="*" element={<Opps />} />

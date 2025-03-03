@@ -5,10 +5,10 @@ import { verifyToken } from '../middleware/token';
 
 export const compilerRouter = express.Router();
 
-compilerRouter.post("/save", verifyTokenAnonymous, saveCode);
-compilerRouter.post("/load", verifyTokenAnonymous, loadCode);
+
+compilerRouter.post("/save", verifyToken, saveCode);
+compilerRouter.post("/load", loadCode);
 compilerRouter.delete("/delete/:id", verifyToken, deleteCode);
 compilerRouter.put("/edit/:id", verifyToken, editCode);
-compilerRouter.get("/get-my-codes", getMyCodes);
-
+compilerRouter.get("/get-my-codes", verifyToken, getMyCodes);
 
