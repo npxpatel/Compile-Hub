@@ -23,7 +23,8 @@ const Header = () => {
     }
   }
 
-  const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
+  const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn) || !!localStorage.getItem("token");
+
 
   return (
     <nav className="w-full p-3 h-[60px] bg-gray-900 flex items-center justify-between text-white select-none z-50 relative">

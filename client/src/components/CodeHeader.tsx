@@ -78,7 +78,13 @@ export default function CodeHeader() {
       navigate(`/compile/${result.data.url}`, { replace: true });
     } 
      catch (err) {
-      alert("Please login to save the code")
+      if(urlId){
+        alert("You are not the chosen one to edit this code 😁")
+      }
+      else{
+        alert("Please login to save the code")
+      }
+      
       console.log(err);
     } finally {
       setLoading(false);
