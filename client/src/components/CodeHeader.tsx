@@ -57,13 +57,16 @@ export default function CodeHeader() {
 
   const saveCode = async () => {
     setLoading(true);
+    const route = urlId ? `${BACKEND_URL}/compiler/edit/${urlId}` : `${BACKEND_URL}/compiler/save`;
+
     try {
       const result = await axios.post(
-        `${BACKEND_URL}/compiler/save`,
+        route,   
         {
           html,
           css,
           javascript,
+          urlId
         },
         {
           headers: {

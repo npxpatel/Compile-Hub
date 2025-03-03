@@ -18,7 +18,7 @@ async function addCode(fullCode, userId, ownerNm) {
         },
     });
 }
-async function updateCode(newCodeId, ownerId) {
+async function connectUserCode(newCodeId, ownerId) {
     await prisma.user.update({
         where: { id: ownerId },
         data: { savedCodes: { connect: { id: newCodeId } } },
@@ -46,7 +46,7 @@ const saveCode = async (req, res) => {
     }
     try {
         const newCode = await addCode(fullCode, ownerId, ownerNm);
-        await updateCode(newCode.id, ownerId);
+        await connectUserCode(newCode.id, ownerId);
         return res
             .status(201)
             .send({ url: newCode.id, msg: "Code saved successfully" });
@@ -59,15 +59,11 @@ const saveCode = async (req, res) => {
 exports.saveCode = saveCode;
 const loadCode = async (req, res) => {
     const { urlId } = req.body;
-    // const userId = req._id;
-    console.log(req._id + " from loadCode");
     try {
         const existingCode = await prisma.code.findUnique({ where: { id: urlId } });
         if (!existingCode) {
             return res.status(404).send({ msg: "Code not found" });
         }
-        // const user = await prisma.user.findUnique({ where: { id: userId } });
-        // const isOwner = user?.username === existingCode.ownerNm;
         return res.status(200).send({ code: existingCode });
     }
     catch (error) {
@@ -140,19 +136,3 @@ const getMyCodes = async (req, res) => {
     }
 };
 exports.getMyCodes = getMyCodes;
-// export const getCode = (req : Request, res: Response) =>{
-//     const {id} = req.params;
-//     try{
-//       const code = prisma.code.findUnique({
-//         where : {id : parseInt(id)}
-//     });
-//     if(!code){
-//       return res.status(404).send({msg : "Code not found"});
-//     }
-//       return res.status(200).send({code}); 
-//    }
-//    catch(error){
-//       console.error("Error getting code:", error);
-//       return res.status(500).send({msg : "Failed to get code"});
-//    }
-// }

@@ -30,7 +30,7 @@ async function addCode(
   });
 }
 
-async function updateCode(newCodeId: number, ownerId: number) {
+async function connectUserCode(newCodeId: number, ownerId: number) {
   await prisma.user.update({
     where: { id: ownerId },
     data: { savedCodes: { connect: { id: newCodeId } } },
@@ -62,7 +62,7 @@ export const saveCode = async (req: Auth, res: Response) => {
 
   try {
     const newCode = await addCode(fullCode, ownerId, ownerNm);
-    await updateCode(newCode.id, ownerId);
+    await connectUserCode(newCode.id, ownerId);
     return res
       .status(201)
       .send({ url: newCode.id, msg: "Code saved successfully" });
@@ -113,21 +113,22 @@ export const deleteCode = async (req: Auth, res: Response) => {
 export const editCode = async (req: Auth, res: Response) => {
   const { html, css, javascript, urlId } = req.body;
   const userId = req._id;
+  const codeID = parseInt(urlId);  
 
   try {
-    const existingCode = await prisma.code.findUnique({ where: { id: urlId } });
+    const existingCode = await prisma.code.findUnique({ where: { id: codeID } });
     if (!existingCode) {
       return res.status(404).send({ msg: "Code not found" });
     }
     if (existingCode.userId !== userId) {
       return res.status(403).send({ msg: "Unauthorized" });
     }
-
+     
     await prisma.code.update({
-      where: { id: urlId },
+      where: { id: codeID },
       data: { html, css, javascript },
     });
-    return res.status(200).send({ msg: "Code updated successfully" });
+    return res.status(200).send({ msg: "Code updated successfully", url : codeID });
   } catch (error) {
     console.error("Error updating code:", error);
     return res.status(500).send({ msg: "Failed to update code" });
