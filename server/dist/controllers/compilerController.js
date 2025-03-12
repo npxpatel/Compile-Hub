@@ -95,8 +95,9 @@ exports.deleteCode = deleteCode;
 const editCode = async (req, res) => {
     const { html, css, javascript, urlId } = req.body;
     const userId = req._id;
+    const codeID = parseInt(urlId);
     try {
-        const existingCode = await prisma.code.findUnique({ where: { id: urlId } });
+        const existingCode = await prisma.code.findUnique({ where: { id: codeID } });
         if (!existingCode) {
             return res.status(404).send({ msg: "Code not found" });
         }
@@ -104,10 +105,10 @@ const editCode = async (req, res) => {
             return res.status(403).send({ msg: "Unauthorized" });
         }
         await prisma.code.update({
-            where: { id: urlId },
+            where: { id: codeID },
             data: { html, css, javascript },
         });
-        return res.status(200).send({ msg: "Code updated successfully" });
+        return res.status(200).send({ msg: "Code updated successfully", url: codeID });
     }
     catch (error) {
         console.error("Error updating code:", error);

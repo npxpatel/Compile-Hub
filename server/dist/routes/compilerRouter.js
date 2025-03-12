@@ -11,5 +11,5 @@ exports.compilerRouter = express_1.default.Router();
 exports.compilerRouter.post("/save", token_1.verifyToken, compilerController_1.saveCode);
 exports.compilerRouter.post("/load", compilerController_1.loadCode);
 exports.compilerRouter.delete("/delete/:id", token_1.verifyToken, compilerController_1.deleteCode);
-exports.compilerRouter.put("/edit/:id", token_1.verifyToken, compilerController_1.editCode);
+exports.compilerRouter.post("/edit/:id", token_1.verifyToken, compilerController_1.editCode);
 exports.compilerRouter.get("/get-my-codes", token_1.verifyToken, compilerController_1.getMyCodes);
