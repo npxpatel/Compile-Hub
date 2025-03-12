@@ -8,7 +8,12 @@ import { RootState } from "@/redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { updateCodeValue } from "@/redux/slices/compilerSlice";
 
-export default function CodeEditor() {
+
+interface CodeEditorProps{
+  onCodeChange? : (code : string, currentLanguageUsed : string) => void
+}
+
+export default function CodeEditor( {onCodeChange} : CodeEditorProps) {
   
   const currentLanguage = useSelector(
     (state: RootState) => state.compilerSlice.currentLanguage
@@ -20,10 +25,18 @@ export default function CodeEditor() {
 
   const dispatch = useDispatch();
 
-  const onChange = React.useCallback((val: string) => {
-    console.log("val:", val);
-    dispatch(updateCodeValue(val));
-  }, []);
+  const onChange = React.useCallback(
+    (val: string) => {
+      console.log("Updated Code:", val);
+      dispatch(updateCodeValue(val));
+      
+      if (onCodeChange) {
+        onCodeChange(val, currentLanguage);
+      }
+    },
+    [dispatch, onCodeChange, currentLanguage]
+  );
+
 
   return (
     <CodeMirror
