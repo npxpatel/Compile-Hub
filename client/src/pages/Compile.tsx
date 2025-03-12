@@ -10,7 +10,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { updateCodeValue, updateFullCode,updateGivenCode } from "@/redux/slices/compilerSlice";
+import { updateFullCode,updateGivenCode } from "@/redux/slices/compilerSlice";
 import { io } from "socket.io-client";
 import { RootState } from "@/redux/store";
 
