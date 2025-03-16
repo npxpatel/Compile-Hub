@@ -59,7 +59,7 @@ io.on("connection", (socket) => {
     } else {
       try {
         // Fetch latest saved code from backend API
-        const response = await axios.post("http://localhost:3000/compiler/load", {
+        const response = await axios.post("https://wd-compiler-backend.vercel.app/compiler/load", {
           urlId: docId,
         });
 
